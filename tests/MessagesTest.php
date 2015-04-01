@@ -31,9 +31,10 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $storage = [];
         $flash = new Messages($storage);
         $flash->addMessage('Test', 'Test');
+        $flash->addMessage('Test', 'Test2');
 
         $this->assertArrayHasKey('slimFlash', $storage);
-        $this->assertEquals('Test', $storage['slimFlash']['Test']);
+        $this->assertEquals(['Test', 'Test2'], $flash->getMessage('Test'));
     }
     
     //Test getting the message from the key
@@ -43,6 +44,6 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $flash = new Messages($storage);
         $flash->addMessage('Test', 'Test');
 
-        $this->assertEquals('Test', $flash->getMessage('Test'));        
+        $this->assertEquals(['Test'], $flash->getMessage('Test'));        
     }
 }
