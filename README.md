@@ -27,7 +27,7 @@ $app->register(new \Slim\Flash\Messages);
 
 $app->get('/foo', function ($req, $res, $args) {
     // Set flash message for next request
-    $this['flash']->addMessage('This is a message');
+    $this['flash']->addMessage('Test', 'This is a message');
 
     // Redirect
     return $res->withStatus(302)->withHeader('Location', '/bar');
