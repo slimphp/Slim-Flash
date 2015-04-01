@@ -40,7 +40,7 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
     //Test getting the message from the key
     public function testGetMessageFromKey()
     {
-        $storage = ['Test' => array('Test')];
+        $storage = ['Test' =>['Test']];
         $flash = new Messages($storage);
 
         $this->assertEquals(['Test'], $flash->getMessage('Test'));        
