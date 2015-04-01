@@ -80,7 +80,11 @@ class Messages implements \Pimple\ServiceProviderInterface
      */
     public function addMessage($key, $message)
     {
-        $this->storage[$this->storageKey][$key] = (string)$message;
+        if (!isset($this->storage[$this->storageKey][$key])) {
+            $this->storage[$this->storageKey][$key] = array();
+        }
+        
+        $this->storage[$this->storageKey][$key][] = (string)$message;
     }
 
     /**
