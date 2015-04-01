@@ -34,7 +34,7 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $flash->addMessage('Test', 'Test2');
 
         $this->assertArrayHasKey('slimFlash', $storage);
-        $this->assertEquals(['Test', 'Test2'], storage[$this->storageKey]['Test']);
+        $this->assertEquals(['Test', 'Test2'], $storage[$this->storageKey]['Test']);
     }
     
     //Test getting the message from the key
