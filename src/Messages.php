@@ -103,7 +103,8 @@ class Messages implements \Pimple\ServiceProviderInterface
      * @param string $key The key to get the message from
      * @return mixed|null Returns the message
      */
-    public function getMessage($key) {
-        return (isset($this->fromPrevious[$key])?$this->fromPrevious[$key]:null;
+    public function getMessage($key)
+    {
+        return (isset($this->fromPrevious[$key])) ? $this->fromPrevious[$key] : null;
     }
 }
