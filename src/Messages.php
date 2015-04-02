@@ -80,10 +80,12 @@ class Messages implements \Pimple\ServiceProviderInterface
      */
     public function addMessage($key, $message)
     {
+        //Create Array for this key
         if (!isset($this->storage[$this->storageKey][$key])) {
             $this->storage[$this->storageKey][$key] = array();
         }
         
+        //Push onto the array
         $this->storage[$this->storageKey][$key][] = (string)$message;
     }
 
@@ -105,6 +107,7 @@ class Messages implements \Pimple\ServiceProviderInterface
      */
     public function getMessage($key)
     {
+        //If the key exists then return all messages or null
         return (isset($this->fromPrevious[$key])) ? $this->fromPrevious[$key] : null;
     }
 }
