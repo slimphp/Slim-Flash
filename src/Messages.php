@@ -75,11 +75,18 @@ class Messages implements \Pimple\ServiceProviderInterface
     /**
      * Add flash message
      *
+     * @param string $key The key to store the message under
      * @param string $message Message to show on next request
      */
-    public function addMessage($message)
+    public function addMessage($key, $message)
     {
-        $this->storage[$this->storageKey][] = (string)$message;
+        //Create Array for this key
+        if (!isset($this->storage[$this->storageKey][$key])) {
+            $this->storage[$this->storageKey][$key] = array();
+        }
+        
+        //Push onto the array
+        $this->storage[$this->storageKey][$key][] = (string)$message;
     }
 
     /**
@@ -90,5 +97,17 @@ class Messages implements \Pimple\ServiceProviderInterface
     public function getMessages()
     {
         return $this->fromPrevious;
+    }
+    
+    /**
+     * Get Flash Message
+     * 
+     * @param string $key The key to get the message from
+     * @return mixed|null Returns the message
+     */
+    public function getMessage($key)
+    {
+        //If the key exists then return all messages or null
+        return (isset($this->fromPrevious[$key])) ? $this->fromPrevious[$key] : null;
     }
 }
