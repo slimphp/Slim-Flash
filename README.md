@@ -22,8 +22,11 @@ session_start();
 
 $app = new \Slim\App();
 
+// Fetch DI Container
+$container = $app->getContainer();
+
 // Register provider
-$app->register(new \Slim\Flash\Messages);
+$container->register(new \Slim\Flash\Messages);
 
 $app->get('/foo', function ($req, $res, $args) {
     // Set flash message for next request
