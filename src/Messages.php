@@ -1,12 +1,10 @@
 <?php
 namespace Slim\Flash;
 
-use Pimple\ServiceProviderInterface;
-
 /**
  * Flash messages
  */
-class Messages implements \Pimple\ServiceProviderInterface
+class Messages
 {
     /**
      * Messages from previous request
@@ -60,16 +58,6 @@ class Messages implements \Pimple\ServiceProviderInterface
             $this->fromPrevious = $this->storage[$this->storageKey];
         }
         $this->storage[$this->storageKey] = [];
-    }
-
-    /**
-     * Register service provider
-     *
-     * @param  \Pimple\Container $container
-     */
-    public function register(\Pimple\Container $container)
-    {
-        $container['flash'] = $this;
     }
 
     /**
