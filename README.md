@@ -27,7 +27,7 @@ $container = $app->getContainer();
 
 // Register provider
 $container['flash'] = function () {
-    new \Slim\Flash\Messages();
+    return new \Slim\Flash\Messages();
 };
 
 $app->get('/foo', function ($req, $res, $args) {
