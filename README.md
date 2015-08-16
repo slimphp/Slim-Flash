@@ -35,7 +35,7 @@ $app->get('/foo', function ($req, $res, $args) {
     $this->flash->addMessage('Test', 'This is a message');
 
     // Redirect
-    return $res->withRedirect('/bar');
+    return $res->withStatus(302)->withHeader('Location', '/bar');
 });
 
 $app->get('/bar', function ($req, $res, $args) {
