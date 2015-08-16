@@ -26,11 +26,13 @@ $app = new \Slim\App();
 $container = $app->getContainer();
 
 // Register provider
-$container->register(new \Slim\Flash\Messages);
+$container['flash'] = function () {
+    return new \Slim\Flash\Messages();
+};
 
 $app->get('/foo', function ($req, $res, $args) {
     // Set flash message for next request
-    $this['flash']->addMessage('Test', 'This is a message');
+    $this->flash->addMessage('Test', 'This is a message');
 
     // Redirect
     return $res->withStatus(302)->withHeader('Location', '/bar');
@@ -38,7 +40,7 @@ $app->get('/foo', function ($req, $res, $args) {
 
 $app->get('/bar', function ($req, $res, $args) {
     // Get flash messages from previous request
-    $messages = $this['flash']->getMessages();
+    $messages = $this->flash->getMessages();
     print_r($messages);
 });
 
