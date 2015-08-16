@@ -26,7 +26,9 @@ $app = new \Slim\App();
 $container = $app->getContainer();
 
 // Register provider
-$container->register(new \Slim\Flash\Messages);
+$container['flash'] = function () {
+    return new \Slim\Flash\Messages();
+};
 
 $app->get('/foo', function ($req, $res, $args) {
     // Set flash message for next request
