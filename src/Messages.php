@@ -4,8 +4,6 @@ namespace Slim\Flash;
 use ArrayAccess;
 use RuntimeException;
 use InvalidArgumentException;
-use Pimple\Container;
-use Pimple\ServiceProviderInterface;
 
 /**
  * Flash messages
