@@ -10,6 +10,11 @@
             "name": "Josh Lockhart",
             "email": "hello@joshlockhart.com",
             "homepage": "http://joshlockhart.com"
+        },
+        {
+            "name": "Nigel Greenway",
+            "email": "nigel_greenway@me.com",
+            "homepage": "http://futurepixels.co.uk"
         }
     ],
     "require": {
