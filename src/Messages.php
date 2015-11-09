@@ -66,12 +66,9 @@ class Messages
      * @param string $key The key to store the message under
      * @param string $message Message to show on next request
      */
-    public function addMessage($key, $message)
+    public function addMessage($message, $key='default')
     {
-        //Create Array for this key
-        if (!isset($this->storage[$this->storageKey][$key])) {
-            $this->storage[$this->storageKey][$key] = array();
-        }
+        $this->initializeStorage($key);
         
         //Push onto the array
         $this->storage[$this->storageKey][$key][] = (string)$message;
@@ -88,12 +85,31 @@ class Messages
     }
     
     /**
+     * Add Array Message
+     * 
+     */
+     public function addArrayMessage(array $message, $key='default')
+     {
+         $this->initializeStorage($key);
+         
+        //Push onto the array
+        $this->storage[$this->storageKey][$key] = $message;
+     }
+     
+     protected function initializeStorage($key) {
+        //Create Array for this key
+        if (!isset($this->storage[$this->storageKey][$key])) {
+            $this->storage[$this->storageKey][$key] = array();
+        }         
+     }
+    
+    /**
      * Get Flash Message
      * 
      * @param string $key The key to get the message from
      * @return mixed|null Returns the message
      */
-    public function getMessage($key)
+    public function getMessage($key = 'default')
     {
         //If the key exists then return all messages or null
         return (isset($this->fromPrevious[$key])) ? $this->fromPrevious[$key] : null;
