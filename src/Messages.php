@@ -64,7 +64,7 @@ class Messages
      * Add flash message
      *
      * @param string $key The key to store the message under
-     * @param string $message Message to show on next request
+     * @param mixed  $message Message to show on next request
      */
     public function addMessage($key, $message)
     {
@@ -72,9 +72,16 @@ class Messages
         if (!isset($this->storage[$this->storageKey][$key])) {
             $this->storage[$this->storageKey][$key] = array();
         }
-        
+
         //Push onto the array
-        $this->storage[$this->storageKey][$key][] = (string)$message;
+        if (
+            is_array($message) === true
+            || is_object($message) === true
+        ) {
+            $this->storage[$this->storageKey][$key] = $message;
+        } else {
+            $this->storage[$this->storageKey][$key][] = (string) $message;
+        }
     }
 
     /**
