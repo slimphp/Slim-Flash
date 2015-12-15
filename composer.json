@@ -32,5 +32,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8.0"
+    },
+    "suggest": {
+        "NigelGreenway/SlimFlashTwigExtension": "Allows accessing the Slim Flash messages in twig"
     }
 }
