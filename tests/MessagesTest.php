@@ -55,7 +55,7 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $flash->addMessage('old', $formData);
 
         $this->assertArrayHasKey('slimFlash', $storage);
-        $this->assertEquals($formData, $storage['slimFlash']['old']);
+        $this->assertEquals($formData, $storage['slimFlash']['old'][0]);
     }
 
     // Test an object can be added to a message array for the next request
@@ -71,7 +71,7 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $flash->addMessage('user', $user);
 
         $this->assertArrayHasKey('slimFlash', $storage);
-        $this->assertInstanceOf(\stdClass::class, $storage['slimFlash']['user']);
+        $this->assertInstanceOf(\stdClass::class, $storage['slimFlash']['user'][0]);
     }
 
     // Test get empty messages from previous request

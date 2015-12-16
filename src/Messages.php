@@ -74,14 +74,7 @@ class Messages
         }
 
         //Push onto the array
-        if (
-            is_array($message) === true
-            || is_object($message) === true
-        ) {
-            $this->storage[$this->storageKey][$key] = $message;
-        } else {
-            $this->storage[$this->storageKey][$key][] = (string) $message;
-        }
+        $this->storage[$this->storageKey][$key][] = $message;
     }
 
     /**
