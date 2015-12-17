@@ -47,6 +47,8 @@ $app->get('/bar', function ($req, $res, $args) {
 $app->run();
 ```
 
+> Please note that a message could be a string, object or array. Please check what your storage can handle.
+
 ## Testing
 
 ``` bash

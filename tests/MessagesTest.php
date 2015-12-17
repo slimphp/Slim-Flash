@@ -16,6 +16,64 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['Test'], $flash->getMessages());
     }
 
+    // Test a string can be added to a message array for the next request
+    public function testAddMessageFromAnIntegerForNextRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $flash->addMessage('key', 46);
+        $flash->addMessage('key', 48);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEquals(['46', '48'], $storage['slimFlash']['key']);
+    }
+
+    // Test a string can be added to a message array for the next request
+    public function testAddMessageFromStringForNextRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $flash->addMessage('key', 'value');
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEquals(['value'], $storage['slimFlash']['key']);
+    }
+
+    // Test an array can be added to a message array for the next request
+    public function testAddMessageFromArrayForNextRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $formData = [
+            'username'     => 'Scooby Doo',
+            'emailAddress' => 'scooby@mysteryinc.org',
+        ];
+
+        $flash->addMessage('old', $formData);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEquals($formData, $storage['slimFlash']['old'][0]);
+    }
+
+    // Test an object can be added to a message array for the next request
+    public function testAddMessageFromObjectForNextRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $user = new \stdClass();
+        $user->name         = 'Scooby Doo';
+        $user->emailAddress = 'scooby@mysteryinc.org';
+
+        $flash->addMessage('user', $user);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertInstanceOf(\stdClass::class, $storage['slimFlash']['user'][0]);
+    }
+
     // Test get empty messages from previous request
     public function testGetEmptyMessagesFromPrevRequest()
     {
