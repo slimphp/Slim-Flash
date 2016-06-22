@@ -104,4 +104,15 @@ class Messages
         //If the key exists then return all messages or null
         return (isset($this->fromPrevious[$key])) ? $this->fromPrevious[$key] : null;
     }
+
+    /**
+     * Has Flash Message
+     *
+     * @param string $key The key to get the message from
+     * @return bool Whether the message is set or not
+     */
+    public function hasMessage($key)
+    {
+        return isset($this->fromPrevious[$key]);
+    }
 }
