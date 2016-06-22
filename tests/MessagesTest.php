@@ -191,7 +191,7 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $storage = ['slimFlash' => [ 'Test' => ['Test', 'Test2']]];
         $flash = new Messages($storage);
 
-        $this->assertEquals(['Test', 'Test2'], $flash->getMessage('Test'));        
+        $this->assertEquals(['Test', 'Test2'], $flash->getMessage('Test'));
     }
 
     //Test getting the message from the key
@@ -204,5 +204,16 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $messages = $flash->getMessages();
 
         $this->assertEquals(['Test', 'Test2','Test3'], $flash->getMessage('Test'));
+    }
+
+    public function testHasMessage()
+    {
+        $storage = ['slimFlash' => []];
+        $flash = new Messages($storage);
+        $this->assertFalse($flash->hasMessage('Test'));
+
+        $storage = ['slimFlash' => [ 'Test' => ['Test']]];
+        $flash = new Messages($storage);
+        $this->assertTrue($flash->hasMessage('Test'));
     }
 }
