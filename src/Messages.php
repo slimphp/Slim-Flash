@@ -84,6 +84,23 @@ class Messages
     }
 
     /**
+     * Add previous flash message (for immediate use)
+     *
+     * @param string $key The key to store the message under
+     * @param mixed  $message Message to show on next request
+     */
+    public function addPreviousMessage($key, $message)
+    {
+        //Create Array for this key
+        if (!isset($this->fromPrevious[$key])) {
+            $this->fromPrevious[$key] = array();
+        }
+
+        //Push onto the array
+        $this->fromPrevious[$key][] = $message;
+    }
+
+    /**
      * Get flash messages
      *
      * @return array Messages to show for current request
