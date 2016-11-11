@@ -83,7 +83,7 @@ class Messages
     {
         //Create Array for this key
         if (!isset($this->storage[$this->storageKey][$key])) {
-            $this->storage[$this->storageKey][$key] = array();
+            $this->storage[$this->storageKey][$key] = [];
         }
 
         //Push onto the array
@@ -96,11 +96,11 @@ class Messages
      * @param string $key The key to store the message under
      * @param mixed  $message Message to show on next request
      */
-    public function addMessageNow($key, $message){
-
+    public function addMessageNow($key, $message)
+    {
         //Create Array for this key
-        if(!isset($this->forNow[$key])){
-            $this->forNow[$key] = array();
+        if (!isset($this->forNow[$key])) {
+            $this->forNow[$key] = [];
         }
 
         //Push onto the array
@@ -116,12 +116,12 @@ class Messages
     {
         $messages = $this->fromPrevious;
 
-        foreach($this->forNow as $key => $values){
-            if(!isset($messages[$key])){
-                $messages[$key] = array();
+        foreach ($this->forNow as $key => $values) {
+            if (!isset($messages[$key])) {
+                $messages[$key] = [];
             }
 
-            foreach($values as $value){
+            foreach ($values as $value) {
                 array_push($messages[$key], $value);
             }
         }
