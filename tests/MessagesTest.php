@@ -16,6 +16,76 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['Test'], $flash->getMessages());
     }
 
+    // Test a string can be added to a message array for the current request
+    public function testAddMessageFromAnIntegerForCurrentRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $flash->addMessageNow('key', 46);
+        $flash->addMessageNow('key', 48);
+
+        $messages = $flash->getMessages();
+        $this->assertEquals(['46','48'], $messages['key']);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEmpty($storage['slimFlash']);
+    }
+
+    // Test a string can be added to a message array for the current request
+    public function testAddMessageFromStringForCurrentRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $flash->addMessageNow('key', 'value');
+
+        $messages = $flash->getMessages();
+        $this->assertEquals(['value'], $messages['key']);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEmpty($storage['slimFlash']);
+    }
+
+    // Test an array can be added to a message array for the current request
+    public function testAddMessageFromArrayForCurrentRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $formData = [
+            'username'     => 'Scooby Doo',
+            'emailAddress' => 'scooby@mysteryinc.org',
+        ];
+
+        $flash->addMessageNow('old', $formData);
+
+        $messages = $flash->getMessages();
+        $this->assertEquals($formData, $messages['old'][0]);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEmpty($storage['slimFlash']);
+    }
+
+    // Test an object can be added to a message array for the current request
+    public function testAddMessageFromObjectForCurrentRequest()
+    {
+        $storage = ['slimFlash' => []];
+        $flash   = new Messages($storage);
+
+        $user = new \stdClass();
+        $user->name         = 'Scooby Doo';
+        $user->emailAddress = 'scooby@mysteryinc.org';
+
+        $flash->addMessageNow('user', $user);
+
+        $messages = $flash->getMessages();
+        $this->assertInstanceOf(\stdClass::class, $messages['user'][0]);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEmpty($storage['slimFlash']);
+    }
+
     // Test a string can be added to a message array for the next request
     public function testAddMessageFromAnIntegerForNextRequest()
     {
@@ -83,6 +153,25 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $flash->getMessages());
     }
 
+    // Test set messages for current request
+    public function testSetMessagesForCurrentRequest()
+    {
+        $storage = ['slimFlash' => [ 'error' => ['An error']]];
+
+        $flash = new Messages($storage);
+        $flash->addMessageNow('error', 'Another error');
+        $flash->addMessageNow('success', 'A success');
+        $flash->addMessageNow('info', 'An info');
+
+        $messages = $flash->getMessages();
+        $this->assertEquals(['An error', 'Another error'], $messages['error']);
+        $this->assertEquals(['A success'], $messages['success']);
+        $this->assertEquals(['An info'], $messages['info']);
+
+        $this->assertArrayHasKey('slimFlash', $storage);
+        $this->assertEmpty([], $storage['slimFlash']);
+    }
+
     // Test set messages for next request
     public function testSetMessagesForNextRequest()
     {
@@ -103,5 +192,17 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $flash = new Messages($storage);
 
         $this->assertEquals(['Test', 'Test2'], $flash->getMessage('Test'));        
+    }
+
+    //Test getting the message from the key
+    public function testGetMessageFromKeyIncludingCurrent()
+    {
+        $storage = ['slimFlash' => [ 'Test' => ['Test', 'Test2']]];
+        $flash = new Messages($storage);
+        $flash->addMessageNow('Test', 'Test3');
+
+        $messages = $flash->getMessages();
+
+        $this->assertEquals(['Test', 'Test2','Test3'], $flash->getMessage('Test'));
     }
 }

@@ -18,6 +18,13 @@ class Messages
     protected $fromPrevious = [];
 
     /**
+     * Messages for current request
+     *
+     * @var string[]
+     */
+    protected $forNow = [];
+
+    /**
      * Messages for next request
      *
      * @var string[]
@@ -67,7 +74,7 @@ class Messages
     }
 
     /**
-     * Add flash message
+     * Add flash message for the next request
      *
      * @param string $key The key to store the message under
      * @param mixed  $message Message to show on next request
@@ -76,11 +83,28 @@ class Messages
     {
         //Create Array for this key
         if (!isset($this->storage[$this->storageKey][$key])) {
-            $this->storage[$this->storageKey][$key] = array();
+            $this->storage[$this->storageKey][$key] = [];
         }
 
         //Push onto the array
         $this->storage[$this->storageKey][$key][] = $message;
+    }
+
+    /**
+     * Add flash message for current request
+     *
+     * @param string $key The key to store the message under
+     * @param mixed  $message Message to show on next request
+     */
+    public function addMessageNow($key, $message)
+    {
+        //Create Array for this key
+        if (!isset($this->forNow[$key])) {
+            $this->forNow[$key] = [];
+        }
+
+        //Push onto the array
+        $this->forNow[$key][] = $message;
     }
 
     /**
@@ -90,7 +114,19 @@ class Messages
      */
     public function getMessages()
     {
-        return $this->fromPrevious;
+        $messages = $this->fromPrevious;
+
+        foreach ($this->forNow as $key => $values) {
+            if (!isset($messages[$key])) {
+                $messages[$key] = [];
+            }
+
+            foreach ($values as $value) {
+                array_push($messages[$key], $value);
+            }
+        }
+
+        return $messages;
     }
 
     /**
@@ -101,7 +137,8 @@ class Messages
      */
     public function getMessage($key)
     {
+        $messages = $this->getMessages();
         //If the key exists then return all messages or null
-        return (isset($this->fromPrevious[$key])) ? $this->fromPrevious[$key] : null;
+        return (isset($messages[$key])) ? $messages[$key] : null;
     }
 }
