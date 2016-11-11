@@ -150,6 +150,7 @@ class Messages
      */
     public function hasMessage($key)
     {
-        return isset($this->fromPrevious[$key]);
+        $messages = $this->getMessages();
+        return isset($messages[$key]);
     }
 }
