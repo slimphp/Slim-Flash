@@ -81,12 +81,12 @@ class Messages
      */
     public function addMessage($key, $message)
     {
-        //Create Array for this key
+        // Create Array for this key
         if (!isset($this->storage[$this->storageKey][$key])) {
             $this->storage[$this->storageKey][$key] = [];
         }
 
-        //Push onto the array
+        // Push onto the array
         $this->storage[$this->storageKey][$key][] = $message;
     }
 
@@ -98,12 +98,12 @@ class Messages
      */
     public function addMessageNow($key, $message)
     {
-        //Create Array for this key
+        // Create Array for this key
         if (!isset($this->forNow[$key])) {
             $this->forNow[$key] = [];
         }
 
-        //Push onto the array
+        // Push onto the array
         $this->forNow[$key][] = $message;
     }
 
@@ -138,7 +138,8 @@ class Messages
     public function getMessage($key)
     {
         $messages = $this->getMessages();
-        //If the key exists then return all messages or null
+
+        // If the key exists then return all messages or null
         return (isset($messages[$key])) ? $messages[$key] : null;
     }
 
