@@ -49,6 +49,11 @@ $app->run();
 
 > Please note that a message could be a string, object or array. Please check what your storage can handle.
 
+### Using with Twig-View
+
+If you use [Twig-View](https://github.com/slimphp/Twig-View), then [slim-twig-flash](https://github.com/kanellov/slim-twig-flash) may be a useful integration package.
+
+
 ## Testing
 
 ``` bash
