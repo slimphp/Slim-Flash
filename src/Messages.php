@@ -154,4 +154,15 @@ class Messages
         $messages = $this->getMessages();
         return isset($messages[$key]);
     }
+
+    /**
+     * Has Flash Message
+     *
+     * @param string $key The key to get the message from
+     * @return bool Whether the message is set or not
+     */
+    public function hasMessage($key)
+    {
+        return isset($this->fromPrevious[$key]);
+    }
 }
