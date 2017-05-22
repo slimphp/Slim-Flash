@@ -13,16 +13,16 @@ class Messages
     /**
      * Messages from previous request
      *
-     * @var string[]
+     * @var mixed[]
      */
-    protected $fromPrevious = [];
+    protected $fromPrevious = array();
 
     /**
      * Messages for current request
      *
-     * @var string[]
+     * @var mixed[]
      */
-    protected $forNow = [];
+    protected $forNow = array();
 
     /**
      * Message storage
@@ -63,7 +63,7 @@ class Messages
         if (isset($this->storage[$this->storageKey]) && is_array($this->storage[$this->storageKey])) {
             $this->fromPrevious = $this->storage[$this->storageKey];
         }
-        $this->storage[$this->storageKey] = [];
+        $this->storage[$this->storageKey] = array();
     }
 
     /**
@@ -100,9 +100,9 @@ class Messages
         if (isset($storage[$key])) {
             $previouslyStoredMessage = $storage[$key];
             if (is_array($previouslyStoredMessage)) {
-                $storage[$key] = array_merge($previouslyStoredMessage, [$message]);
+                $storage[$key] = array_merge($previouslyStoredMessage, array($message));
             } else {
-                $storage[$key] = [$previouslyStoredMessage, $message];
+                $storage[$key] = array($previouslyStoredMessage, $message);
             }
         } else {
             $storage[$key] = $message;
@@ -124,12 +124,12 @@ class Messages
             } else {
                 $previouslyStoredMessage = $messages[$key];
                 if (!is_array($values)) {
-                    $values = [$values];
+                    $values = array($values);
                 }
                 if (is_array($previouslyStoredMessage)) {
                     $messages[$key] = array_merge($previouslyStoredMessage, $values);
                 } else {
-                    $messages[$key] = array_merge([$previouslyStoredMessage], $values);
+                    $messages[$key] = array_merge(array($previouslyStoredMessage), $values);
                 }
             }
         }
