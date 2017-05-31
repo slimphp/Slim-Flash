@@ -13,23 +13,16 @@ class Messages
     /**
      * Messages from previous request
      *
-     * @var string[]
+     * @var mixed[]
      */
-    protected $fromPrevious = [];
+    protected $fromPrevious = array();
 
     /**
      * Messages for current request
      *
-     * @var string[]
+     * @var mixed[]
      */
-    protected $forNow = [];
-
-    /**
-     * Messages for next request
-     *
-     * @var string[]
-     */
-    protected $forNext = [];
+    protected $forNow = array();
 
     /**
      * Message storage
@@ -70,7 +63,7 @@ class Messages
         if (isset($this->storage[$this->storageKey]) && is_array($this->storage[$this->storageKey])) {
             $this->fromPrevious = $this->storage[$this->storageKey];
         }
-        $this->storage[$this->storageKey] = [];
+        $this->storage[$this->storageKey] = array();
     }
 
     /**
@@ -81,30 +74,39 @@ class Messages
      */
     public function addMessage($key, $message)
     {
-        // Create Array for this key
-        if (!isset($this->storage[$this->storageKey][$key])) {
-            $this->storage[$this->storageKey][$key] = [];
-        }
-
-        // Push onto the array
-        $this->storage[$this->storageKey][$key][] = $message;
+        $this->addMessageToStorage($this->storage[$this->storageKey], $key, $message);
     }
 
     /**
      * Add flash message for current request
      *
      * @param string $key The key to store the message under
-     * @param mixed  $message Message to show on next request
+     * @param mixed  $message Message to show on current request
      */
     public function addMessageNow($key, $message)
     {
-        // Create Array for this key
-        if (!isset($this->forNow[$key])) {
-            $this->forNow[$key] = [];
-        }
+        $this->addMessageToStorage($this->forNow, $key, $message);
+    }
 
-        // Push onto the array
-        $this->forNow[$key][] = $message;
+    /**
+     * Add flash message to specified storage
+     *
+     * @param array  $storage The storage where to store the message
+     * @param string $key The key to store the message under
+     * @param mixed  $message Message to show
+     */
+    protected function addMessageToStorage(&$storage, $key, $message)
+    {
+        if (isset($storage[$key])) {
+            $previouslyStoredMessage = $storage[$key];
+            if (is_array($previouslyStoredMessage)) {
+                $storage[$key] = array_merge($previouslyStoredMessage, array($message));
+            } else {
+                $storage[$key] = array($previouslyStoredMessage, $message);
+            }
+        } else {
+            $storage[$key] = $message;
+        }
     }
 
     /**
@@ -118,11 +120,17 @@ class Messages
 
         foreach ($this->forNow as $key => $values) {
             if (!isset($messages[$key])) {
-                $messages[$key] = [];
-            }
-
-            foreach ($values as $value) {
-                array_push($messages[$key], $value);
+                $messages[$key] = $values;
+            } else {
+                $previouslyStoredMessage = $messages[$key];
+                if (!is_array($values)) {
+                    $values = array($values);
+                }
+                if (is_array($previouslyStoredMessage)) {
+                    $messages[$key] = array_merge($previouslyStoredMessage, $values);
+                } else {
+                    $messages[$key] = array_merge(array($previouslyStoredMessage), $values);
+                }
             }
         }
 

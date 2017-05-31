@@ -1,7 +1,7 @@
 {
-    "name": "slim/flash",
+    "name": "krotovic/slim-flash",
     "type": "library",
-    "description": "Slim Framework Flash message service provider",
+    "description": "Slim Framework Flash message service provider [fork of slim/flash]",
     "keywords": ["slim","framework","provider","flash","message"],
     "homepage": "http://slimframework.com",
     "license": "MIT",
@@ -10,6 +10,11 @@
             "name": "Josh Lockhart",
             "email": "hello@joshlockhart.com",
             "homepage": "http://joshlockhart.com"
+        }, {
+            "name": "Lukáš Krotovič",
+            "email": "lukas@krotovic.cz",
+            "homepage": "http://lukas.krotovic.cz",
+            "role": "Developer"
         }
     ],
     "require": {
