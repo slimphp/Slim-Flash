@@ -194,6 +194,24 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['Test', 'Test2'], $flash->getMessage('Test'));
     }
 
+    //Test getting the first message from the key
+    public function testGetFirstMessageFromKey()
+    {
+        $storage = ['slimFlash' => [ 'Test' => ['Test', 'Test2']]];
+        $flash = new Messages($storage);
+
+        $this->assertEquals('Test', $flash->getFirstMessage('Test'));
+    }
+
+    //Test getting the default message if the key doesn't exist
+    public function testDefaultFromGetFirstMessageFromKeyIfKeyDoesntExist()
+    {
+        $storage = ['slimFlash' => []];
+        $flash = new Messages($storage);
+
+        $this->assertEquals('This', $flash->getFirstMessage('Test', 'This'));
+    }
+
     //Test getting the message from the key
     public function testGetMessageFromKeyIncludingCurrent()
     {

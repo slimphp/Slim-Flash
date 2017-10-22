@@ -42,6 +42,10 @@ $app->get('/bar', function ($req, $res, $args) {
     // Get flash messages from previous request
     $messages = $this->flash->getMessages();
     print_r($messages);
+
+    // Get the first message from a specific key
+    $test = $this->flash->getFirstMessage('Test');
+    print_r($test);
 });
 
 $app->run();
