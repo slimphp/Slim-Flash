@@ -171,4 +171,40 @@ class Messages
         $messages = $this->getMessages();
         return isset($messages[$key]);
     }
+
+    /**
+     * Clear all messages
+     *
+     * @return void
+     */
+    public function clearMessages()
+    {
+        if (isset($this->storage[$this->storageKey])) {
+            $this->storage[$this->storageKey] = [];
+        }
+
+        $this->fromPrevious = [];
+        $this->forNow = [];
+    }
+
+    /**
+     * Clear specific message
+     *
+     * @param  String $key The key to clear
+     * @return void
+     */
+    public function clearMessage($key)
+    {
+        if (isset($this->storage[$this->storageKey][$key])) {
+            unset($this->storage[$this->storageKey][$key]);
+        }
+
+        if (isset($this->fromPrevious[$key])) {
+            unset($this->fromPrevious[$key]);
+        }
+
+        if (isset($this->forNow[$key])) {
+            unset($this->forNow[$key]);
+        }
+    }
 }
