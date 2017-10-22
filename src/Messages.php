@@ -144,6 +144,23 @@ class Messages
     }
 
     /**
+     * Get the first Flash message
+     *
+     * @param  string $key The key to get the message from
+     * @param  string $default Default value if key doesn't exist
+     * @return mixed Returns the message
+     */
+    public function getFirstMessage($key, $default = null)
+    {
+        $messages = self::getMessage($key);
+        if (is_array($messages) && count($messages) > 0) {
+            return $messages[0];
+        }
+
+        return $default;
+    }
+
+    /**
      * Has Flash Message
      *
      * @param string $key The key to get the message from
