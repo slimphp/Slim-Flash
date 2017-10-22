@@ -269,4 +269,14 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($flash->hasMessage('Now'));
         $this->assertTrue($flash->hasMessage('Foo'));
     }
+
+    public function testSettingCustomStorageKey()
+    {
+        $storage = ['some-key' => [ 'Test' => ['Test']]];
+        $flash = new Messages($storage);
+        $this->assertFalse($flash->hasMessage('Test'));
+
+        $flash = new Messages($storage, 'some-key');
+        $this->assertTrue($flash->hasMessage('Test'));
+    }
 }
