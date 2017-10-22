@@ -52,8 +52,12 @@ class Messages
      * @throws RuntimeException if the session cannot be found
      * @throws InvalidArgumentException if the store is not array-like
      */
-    public function __construct(&$storage = null)
+    public function __construct(&$storage = null, $storageKey = null)
     {
+        if (is_string($storageKey) && $storageKey) {
+            $this->storageKey = $storageKey;
+        }
+
         // Set storage
         if (is_array($storage) || $storage instanceof ArrayAccess) {
             $this->storage = &$storage;
