@@ -98,7 +98,7 @@ class Messages
      * Add flash message for current request
      *
      * @param string $key The key to store the message under
-     * @param mixed  $message Message to show on next request
+     * @param mixed  $message Message to show for the current request
      */
     public function addMessageNow($key, $message)
     {
