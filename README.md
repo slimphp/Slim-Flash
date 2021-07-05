@@ -16,6 +16,89 @@ Requires Slim 3.0.0 or newer.
 
 ## Usage
 
+### Slim 4
+
+This example assumes that you have `php-di/php-di` installed.
+
+```php
+<?php
+
+use DI\ContainerBuilder;
+use Slim\Factory\AppFactory;
+use Slim\Flash\Messages;
+use Slim\Routing\RouteContext;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$containerBuilder = new ContainerBuilder();
+
+// Add container definition for the flash component
+$containerBuilder->addDefinitions(
+    [
+        'flash' => function () {
+            $storage = [];
+            return new Messages($storage);
+        }
+    ]
+);
+
+AppFactory::setContainer($containerBuilder->build());
+
+$app = AppFactory::create();
+
+// Add session start middleware
+$app->add(
+    function ($request, $next) {
+        // Start PHP session
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        // Change flash message storage
+        $this->get('flash')->__construct($_SESSION);
+
+        return $next->handle($request);
+    }
+);
+
+$app->addErrorMiddleware(true, true, true);
+
+// Add routes
+$app->get(
+    '/',
+    function ($request, $response) {
+        // Set flash message for next request
+        $this->get('flash')->addMessage('Test', 'This is a message');
+
+        // Redirect
+        $url = RouteContext::fromRequest($request)->getRouteParser()->urlFor('bar');
+
+        return $response->withStatus(302)->withHeader('Location', $url);
+    }
+);
+
+$app->get(
+    '/bar',
+    function ($request, $response) {
+        $flash = $this->get('flash');
+
+        // Get flash messages from previous request
+        $messages = $flash->getMessages();
+        print_r($messages);
+
+        // Get the first message from a specific key
+        $test = $flash->getFirstMessage('Test');
+        print_r($test);
+
+        return $response;
+    }
+)->setName('bar');
+
+$app->run();
+```
+
+### Slim 3
+
 ```php
 // Start PHP session
 session_start();
